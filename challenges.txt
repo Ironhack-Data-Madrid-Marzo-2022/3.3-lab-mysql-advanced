@@ -1,0 +1,26 @@
+STEP 1
+select 	titleauthor.au_id as 'AUTHOR ID',
+		titles.title_id as 'TITLE ID',
+        (titles.price * sales.qty * titles.royalty / 100 * titleauthor.royaltyper / 100) as 'SALES ROYALTY'
+from sales
+
+left join titles
+on titles.title_id = sales.title_id
+
+left join titleauthor
+on titleauthor.title_id = titles.title_id;
+
+STEP 2
+
+select	titleauthor.au_id as 'Author ID',
+		titles.title_id as 'TITLE ID',
+		(titles.price * sales.qty * titles.royalty / 100 * titleauthor.royaltyper / 100) as 'SALES ROYALTY'
+from sales
+left join titles
+on sales.title_id = titles.title_id
+where titles.title_id in (
+			select titles.title_id from titles
+            
+            left join titleauthor
+            on titles.title_id = titleauthor.title_id
+            )
