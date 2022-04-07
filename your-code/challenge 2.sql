@@ -1,9 +1,9 @@
-create temporary table publications.royalty_by_author
+create temporary table publications.royalty_by_author2
 select authors.au_id as authorid,
 
 
-sum(titles.price * sales.qty * titles.royalty / 100 * titleauthor.royaltyper / 100) as royalty
-
+sum(titles.price * sales.qty * titles.royalty / 100 * titleauthor.royaltyper / 100) as royalty,
+sum(titles.advance*titleauthor.royaltyper / 100) as adv
 from sales
 
 left join titles
@@ -21,14 +21,15 @@ order by authors.au_id desc
 
 
 
------------Llamada a temporarytable
 
+
+--------------------------------------------------------------------------------
 select 
-author.au_id as authorid,
-sum(advance*titleauthor.royaltyper/100 + royalty) as profit
+authorid,
+sum(adv + royalty) as profit
 
-from royalty_by_author
+from royalty_by_author2
 
-group by author.au_id
-order by profit
+group by authorid
+order by profit desc
 limit 3;
