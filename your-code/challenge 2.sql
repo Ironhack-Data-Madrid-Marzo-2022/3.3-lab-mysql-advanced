@@ -23,7 +23,7 @@ order by authors.au_id desc
 
 
 
---------------------------------------------------------------------------------
+-- challenge 2------------------------------------------------------------------------------
 select 
 authorid,
 sum(adv + royalty) as profit
@@ -33,3 +33,21 @@ from royalty_by_author2
 group by authorid
 order by profit desc
 limit 3;
+
+
+
+-- challenge 3 ...........................
+
+create temporary table publications.royalty_by_author2(
+select authors.au_id as authorid,
+
+
+ (royalty+adv) as profit
+ 
+ from royalty_by_author2 as d
+ group by authorid
+ order by profit
+ limit 3);
+ 
+ create table most_profitable_authors
+select * from most_profitable_authors
