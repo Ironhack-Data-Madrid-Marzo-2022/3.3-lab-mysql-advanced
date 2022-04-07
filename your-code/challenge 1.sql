@@ -9,7 +9,7 @@ from (select
 titles.title_id as "title id",
 authors.au_id as authorid,
 sum(titles.price * sales.qty * titles.royalty / 100 * titleauthor.royaltyper / 100) as royalty,
-sum(titles.advance) as d
+sum(titles.advance* titleauthor.royaltyper / 100) as d
 from sales
 
 left join titles
